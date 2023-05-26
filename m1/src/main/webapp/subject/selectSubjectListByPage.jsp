@@ -13,7 +13,7 @@
 	}
 		System.out.println(currentPage + "<-currentPage");
 		
-	int rowPerPage = 3;
+	int rowPerPage = 2;
 	int startRow = (currentPage - 1) * rowPerPage;
 	
 	int totalRow = dao.selcetSubjectCnt();
@@ -38,17 +38,43 @@
 	
 	<!-- Latest compiled JavaScript -->
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+	<style>
+	.page-link {
+	  color: #000; 
+	  background-color: #fff;
+	  border: 1px solid #ccc; 
+	}
+	.page-item.active .page-link {
+	 z-index: 1;
+	 color: #000;
+	 background-color: #FAECC5;
+	 border-color: #ccc;
+	 
+	}
+	.page-link:focus, .page-link:hover { 
+	  color: #000;
+	  background-color: #FFE08C; 
+	  border-color: #ccc;
+	}
+	.colorB {
+		color: #000;
+	}
+	
+	.colorG {
+		color: #747474;
+	}
+</style>
 </head>
 <body>
-<div class ="container-fluid">
+<div class ="container-fluid" style="text-align: center;">
 <br>
 <h1>과목리스트</h1>
-<hr>
+<br>
 	<table class="table table-bordered">
-		<tr>
-			<td>No.</td>
-			<td>과목명</td>
-			<td>시수</td>
+		<tr class="table-warning">
+			<td style="width: 10%">No.</td>
+			<td style="width: 30%">과목명</td>
+			<td style="width: 30%">시수</td>
 			<td>생성일</td>
 		</tr>
 		<%
@@ -65,11 +91,13 @@
 		%>
 	</table>
 	<div style="text-align: right;"> 
-	<a href="<%=request.getContextPath()%>/subject/insertSubject.jsp">추가</a>
+	<a href="<%=request.getContextPath()%>/subject/insertSubject.jsp" class="btn btn-sm btn-outline-dark">추가</a>
 	</div>
 <!-- 페이징 -->
+	<div>
+	<ul class="pagination justify-content-center" style="margin:20px 0">
 <%
-	int pagePerNo = 10;
+	int pagePerNo = 2;
 	int minPageNo = ((currentPage - 1)/pagePerNo) * pagePerNo + 1; // 1~9 / 10 = 0
 	int maxPageNo = minPageNo + (pagePerNo - 1);
 	if(maxPageNo > lastPage) {
@@ -79,7 +107,10 @@
 <%
 	if(minPageNo > 1){
 %>
-	<a href="<%=request.getContextPath()%>/subject/selectSubjectListByPage.jsp?currentPage=<%=minPageNo - pagePerNo%>">이전</a>
+	<li class="page-item">
+	<a href="<%=request.getContextPath()%>/subject/selectSubjectListByPage.jsp?currentPage=<%=minPageNo - pagePerNo%>"  class="page-link colorG">
+	Previous</a>
+	</li>
 <%
 	}
 %>
@@ -87,12 +118,17 @@
 	for(int i = minPageNo; i<=maxPageNo; i++){
 		if(i == currentPage) { // 선택됐을 경우
 %>	
-			<%=i%>
+			<li class="page-item active">
+			<a class="page-link"><%=i%></a>
+			</li>
 <%
 		}
 		else { // 선택되지 않았을 경우
 %>	
-			<a href="<%=request.getContextPath()%>/subject/selectSubjectListByPage.jsp?currentPage=<%=i%>"><%=i%></a>
+			<li class="page-item">
+			<a href="<%=request.getContextPath()%>/subject/selectSubjectListByPage.jsp?currentPage=<%=i%>" class="page-link colorB">
+			<%=i%></a>
+			</li>
 <%
 		}
 	}
@@ -100,11 +136,15 @@
 <%
 	if(maxPageNo != lastPage){
 %>
-	<a href="<%=request.getContextPath()%>/subject/selectSubjectListByPage.jsp?currentPage=<%=minPageNo + pagePerNo%>">다음</a>
+	<li class="page-item">
+	<a href="<%=request.getContextPath()%>/subject/selectSubjectListByPage.jsp?currentPage=<%=minPageNo + pagePerNo%>" class="page-link colorG">
+	Next</a>
+	</li>
 <%
 	}
 %>
-
+</ul>
+</div>
 </div>
 </body>
 </html>
