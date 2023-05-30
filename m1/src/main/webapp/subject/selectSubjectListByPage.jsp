@@ -43,31 +43,34 @@
 	  color: #000; 
 	  background-color: #fff;
 	  border: 1px solid #ccc; 
+	  border-radius: 50%;
 	}
 	.page-item.active .page-link {
 	 z-index: 1;
 	 color: #000;
 	 background-color: #FAECC5;
 	 border-color: #ccc;
+	 border-radius: 50%;
 	 
 	}
 	.page-link:focus, .page-link:hover { 
 	  color: #000;
 	  background-color: #FFE08C; 
 	  border-color: #ccc;
+	  border-radius: 100%;
 	}
 	.colorB {
 		color: #000;
-	}
-	
-	.colorG {
-		color: #747474;
 	}
 </style>
 </head>
 <body>
 <div class ="container-fluid" style="text-align: center;">
 <br>
+<!-- mainmenu -->
+	<div>
+      <jsp:include page="/mainmenu.jsp"></jsp:include>
+	</div>
 <h1>과목리스트</h1>
 <br>
 	<table class="table table-bordered">
@@ -97,30 +100,34 @@
 	<div>
 	<ul class="pagination justify-content-center" style="margin:20px 0">
 <%
-	int pagePerNo = 2;
+	int pagePerNo = 5;
 	int minPageNo = ((currentPage - 1)/pagePerNo) * pagePerNo + 1; // 1~9 / 10 = 0
 	int maxPageNo = minPageNo + (pagePerNo - 1);
 	if(maxPageNo > lastPage) {
 		maxPageNo = lastPage;
 	}
 %>
+<!-- 이전 -->
 <%
-	if(minPageNo > 1){
+	if(minPageNo > 1){ // 이전 활성화
 %>
 	<li class="page-item">
-	<a href="<%=request.getContextPath()%>/subject/selectSubjectListByPage.jsp?currentPage=<%=minPageNo - pagePerNo%>"  class="page-link colorG">
-	Previous</a>
-	</li>
+	<a href="<%=request.getContextPath()%>/subject/selectSubjectListByPage.jsp?currentPage=<%=minPageNo - pagePerNo%>"  class="page-link colorB">
+	이전</a>
+	</li>&nbsp;
+<%
+	} else if(minPageNo <= 1) {// 이전 비활성화
+%>
+	<li class="page-item disabled"> <a class="page-link colorG">이전</a> </li>&nbsp;
 <%
 	}
 %>
+<!-- 숫자 -->
 <%
 	for(int i = minPageNo; i<=maxPageNo; i++){
 		if(i == currentPage) { // 선택됐을 경우
 %>	
-			<li class="page-item active">
-			<a class="page-link"><%=i%></a>
-			</li>
+			<li class="page-item active"> <a class="page-link"><%=i%></a> </li>&nbsp;
 <%
 		}
 		else { // 선택되지 않았을 경우
@@ -128,18 +135,23 @@
 			<li class="page-item">
 			<a href="<%=request.getContextPath()%>/subject/selectSubjectListByPage.jsp?currentPage=<%=i%>" class="page-link colorB">
 			<%=i%></a>
-			</li>
+			</li>&nbsp;
 <%
 		}
 	}
 %>	
+<!-- 다음 -->
 <%
-	if(maxPageNo != lastPage){
+	if(maxPageNo != lastPage){// 다음 활성화
 %>
 	<li class="page-item">
-	<a href="<%=request.getContextPath()%>/subject/selectSubjectListByPage.jsp?currentPage=<%=minPageNo + pagePerNo%>" class="page-link colorG">
-	Next</a>
+	<a href="<%=request.getContextPath()%>/subject/selectSubjectListByPage.jsp?currentPage=<%=minPageNo + pagePerNo%>" class="page-link colorB">
+	다음</a>
 	</li>
+<%
+	} else if(maxPageNo == lastPage){// 다음 비활성화
+%>
+	<li class="page-item disabled"> <a class="page-link colorG">다음</a> </li>
 <%
 	}
 %>

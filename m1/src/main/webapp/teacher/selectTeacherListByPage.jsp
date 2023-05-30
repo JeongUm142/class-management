@@ -35,35 +35,37 @@
 	<!-- Latest compiled JavaScript -->
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 	<style>
-	.page-link {
+	.page-item .page-link {
 	  color: #000; 
 	  background-color: #fff;
 	  border: 1px solid #ccc; 
+	  border-radius: 50%;
 	}
 	.page-item.active .page-link {
 	 z-index: 1;
 	 color: #000;
 	 background-color: #FAECC5;
 	 border-color: #ccc;
+	 border-radius: 70%;
 	 
 	}
-	.page-link:focus, .page-link:hover { 
+	.page-link:focus, .page-item .page-link:hover { 
 	  color: #000;
 	  background-color: #FFE08C; 
 	  border-color: #ccc;
-	}
-	.colorB {
-		color: #000;
+	  border-radius: 50%;
+	  
 	}
 	
-	.colorG {
-		color: #747474;
-	}
 </style>
 </head>
 <body class="container-fluid" style="text-align: center;">
 <div>
 <br>
+<!-- mainmenu -->
+	<div>
+      <jsp:include page="/mainmenu.jsp"></jsp:include>
+	</div>
 <h1>강사리스트</h1>
 <br>
 	<table class="table table-bordered">
@@ -87,9 +89,9 @@
 	%>
 	</table>
 	
-	<!-- 페이징 -->
+<!-- 페이징 -->
 	<div>
-	<ul class="pagination justify-content-center" style="margin:20px 0">
+	<ul class="pagination justify-content-center">
 	<%//변수
 		int pageParNo = 2;
 		int minPageNo = ((currentPage - 1) / pageParNo) * pageParNo + 1; //1~10 / 11 ~ 20
@@ -102,11 +104,15 @@
 		if(minPageNo > 1) {
 	%>	
 		<li class="page-item">
-		<a href="<%=request.getContextPath()%>/teacher/selectTeacherListByPage.jsp?currentPage=<%=minPageNo-pageParNo%>" class="page-link colorG">
-		Previous</a>
-		</li>	
-	<%	
-		}
+		<a href="<%=request.getContextPath()%>/teacher/selectTeacherListByPage.jsp?currentPage=<%=minPageNo-pageParNo%>" class="page-link">
+		이전</a>
+		</li>&nbsp;
+	<%
+	} else if(minPageNo <= 1) {// 이전 비활성화
+	%>
+	<li class="page-item disabled"> <a class="page-link">이전</a> </li>&nbsp;
+	<%
+	}
 	%>
 
 	<%//숫자
@@ -114,15 +120,15 @@
 		if(i == currentPage) {
 	%>	
 		<li class="page-item active">
-		<a class="page-link"><%=i%></a>&nbsp;
-		</li>
+		<a class="page-link"><%=i%></a>
+		</li>&nbsp;
 	<%	
 		}else{
 	%>	
 		<li class="page-item">
-			<a href="<%=request.getContextPath()%>/teacher/selectTeacherListByPage.jsp?currentPage=<%=i%>" class="page-link colorB">
-			<%=i%></a>&nbsp;
-		</li>
+			<a href="<%=request.getContextPath()%>/teacher/selectTeacherListByPage.jsp?currentPage=<%=i%>" class="page-link">
+			<%=i%></a>
+		</li>&nbsp;
 	<%
 			}
 		}
@@ -132,10 +138,14 @@
 		if(maxPageNo != lastPage) {
 	%>	
 		<li class="page-item">
-		<a href="<%=request.getContextPath()%>/teacher/selectTeacherListByPage.jsp?currentPage=<%=minPageNo + pageParNo%>" class="page-link colorG">
-		Next</a>
+		<a href="<%=request.getContextPath()%>/teacher/selectTeacherListByPage.jsp?currentPage=<%=minPageNo + pageParNo%>" class="page-link">
+		다음</a>
 		</li>
 	<%	
+		} else if(maxPageNo == lastPage){// 다음 비활성화
+			%>
+			<li class="page-item disabled"> <a class="page-link">다음</a> </li>
+	<%
 		}
 	%>
 	</ul>

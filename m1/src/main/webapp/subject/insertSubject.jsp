@@ -11,21 +11,27 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-<div>
-	<h1>과목 추가</h1>
-<hr>
+<div class ="container-fluid" style="text-align: center;">
+<br>
+<!-- mainmenu -->
+	<div>
+      <jsp:include page="/mainmenu.jsp"></jsp:include>
+	</div>
+<h1>과목 추가</h1>
+<br>
 <form action="<%=request.getContextPath()%>/subject/insertSubjectAction.jsp" method="post">
-	<table>
+	<table class="table table-bordered">
 		<tr>
-			<td>과목명</td>
+			<td class="table-warning">과목명</td>
 			<td><input type="text" name="subjectName"></td>
 		</tr>
 		<tr>
-			<td>시수</td>
+			<td class="table-warning">시수</td>
 			<td><input type="number" name="subjectTime" min="0"></td>
 		</tr>
 	</table>
-	<button type="submit">추가</button>
+	<button type="submit" class="btn btn-sm btn-outline-dark">추가</button>&nbsp;&nbsp;
+	<a href="<%=request.getContextPath()%>/subject/selectSubjectListByPage.jsp" class="btn btn-sm btn-outline-dark">뒤로가기</a>
 </form>
 </div>
 </body>

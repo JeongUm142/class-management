@@ -56,8 +56,11 @@ public class SubjectDao {
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
 		PreparedStatement deleteStmt = conn.prepareStatement(
-				"sql");
-		ResultSet deleteRs= deleteStmt.executeQuery();
+				"DELETE FROM subject WHERE subject_no = ?"
+		);
+		deleteStmt.setInt(1, subjectNo);
+		
+		row = deleteStmt.executeUpdate();
 		
 		return row;
 	}
@@ -68,8 +71,13 @@ public class SubjectDao {
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
 		PreparedStatement updateStmt = conn.prepareStatement(
-				"sql");
-		ResultSet updateRs= updateStmt.executeQuery();
+				"UPDATE subject SET subject_name = ?, subject_time = ?, updatedate = now() WHERE subject_no = ?"
+		);
+		updateStmt.setString(1, subject.getSubdjectName());
+		updateStmt.setInt(2, subject.getSubjectTime());
+		updateStmt.setInt(3, subject.getSubjectNo());
+				
+		row = updateStmt.executeUpdate();
 		
 		return row;
 	}
