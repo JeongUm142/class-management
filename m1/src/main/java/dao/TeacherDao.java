@@ -43,6 +43,7 @@ limit 0,10;
 		
 		return selectlist;
 	}
+	//전체 행의 수 
 	public int totalCnt() throws Exception {
 		int row = 0;
 		DBUtil dbutil = new DBUtil();
@@ -58,8 +59,29 @@ limit 0,10;
 	}
 	
 	//강사 1명 상세보기
-	public Teacher selectTeacherOne(int teacherNo) {
-		return null;
+	public Teacher selectTeacherOne(int teacherNo) throws Exception {
+		Teacher teacher = null;
+		DBUtil dbutil = new DBUtil();
+		Connection conn = dbutil.getConnection();
+		PreparedStatement oneStmt = conn.prepareStatement(
+				"SELECT teacher_no teacherNo, teacher_id teacherId, teacher_name teacherName, teacher_history teacherHistory, createdate, updatedate FROM teacher WHERE teacher_no = ?"
+		);
+		oneStmt.setInt(1, teacher.getTeacherNo());
+		
+		ResultSet oneRs = oneStmt.executeQuery();
+		
+		//ArrayList
+				if(oneRs.next()) {
+					teacher = new Teacher();
+					teacher.setTeacherNo(oneRs.getInt("teacherNo"));
+					teacher.setTeacherId(oneRs.getString("teacherId"));
+					teacher.setTeacherName(oneRs.getString("teacherName"));
+					teacher.setTeacherHistory(oneRs.getString("teacherHistory"));
+					teacher.setCreatedate(oneRs.getString("createdate"));
+					teacher.setUpdatedate(oneRs.getString("updatedate"));
+				}
+		return teacher;
+		
 	}
 	
 	//수정 
